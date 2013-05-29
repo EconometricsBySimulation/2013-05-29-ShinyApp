@@ -126,4 +126,4 @@ shinyServer(function(input, output) {
 # runApp("HandMadeEval")
 # setwd("~/Shiny_R_Apps/")
 
-# setwd("C:\\Dropbox\\Shiny_R")
+# For me: setwd("C:\\Dropbox\\Shiny_R")
