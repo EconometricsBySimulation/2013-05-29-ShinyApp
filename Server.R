@@ -7,6 +7,11 @@ library(shiny)
   close(con) 
   nrow(individual.responses)
 
+# Load item response estimates into memory.
+  con = url("http://stata-bloggers.com/EconometricsBySimulation/2013-05-31-IRT-param.Rdata")
+  load(file=con) 
+  close(con)
+  
 # I specify input$obs initially for debugging purposes.  Once this loads up on the server it is overwritten by the GUI.
   input = list(obs=27)
 
@@ -71,7 +76,17 @@ shinyServer(function(input, output) {
     text3 = ""
     if ((loading > .5) & (correct.mean<.5)) text3 = paste0(" Note that there is a large loading on a response ", round(loading,2)*100 ,"% which is not the correct one. This probably indicates that there is something wrong with this problem.")
     
-    cat(paste0(text0,text.5,text1,text2, text3))
+    a.est = round(a$item.parms$A[a$item.parms$item==input$obs],2)
+    b.est = round(a$item.parms$B[a$item.parms$item==input$obs],2)
+    
+    text4 = paste0("  In terms of item parameter estimates, this item had a=",a.est , " and b=", b.est, ".  ")
+    
+    text5 = "Having a large (a) estimate predicts the item to have good discrimination power around the mean difficulty level (b)."
+    if (a.est<1.5) text5 = "Having a decent (a) estimate predicts the item to have good discrimination power around the mean difficulty level."
+    if (a.est<1) text5 = "Having a small (a) estimate predicts the item to have difficulties discriminating between people who are above this level and those below."
+    if (a.est<.5) text5 = "Having a very small (a) estimate predicts the item to have very little predictive power."
+    
+    cat(paste0(text0,text.5,text1,text2, text3, text4, text5))
   })
   
   # Plot Item Difficulty
@@ -123,7 +138,7 @@ shinyServer(function(input, output) {
 })
 
 # I have these command below ready to be copied and pasted as the need arose for practice testing the shiny App.
-# runApp("HandMadeEval")
+# runApp("2013-05-29-ShinyApp")
 # setwd("~/Shiny_R_Apps/")
 
-# For me: setwd("C:\\Dropbox\\Shiny_R")
+# For me: setwd("C:\\Users\\Francis Smart\\Documents\\GitHub\\")
