@@ -1,13 +1,6 @@
 # Server.R
 library(shiny)
 
-# Load item response estimates into memory.
- # con = url("http://stata-bloggers.com/EconometricsBySimulation/2013-05-31-IRT-param.Rdata")
- # load(file=con) 
- # close(con)
-  
-  load("2013-05-31-IRT-param.Rdata")
-  
 # Load the data into memory with this somewhat odd formation.
   con = url("http://concerto4.e-psychometrics.com/media/13/Visual.Reasoning1.RData")
   load(file=con) 
